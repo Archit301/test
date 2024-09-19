@@ -9,24 +9,23 @@ app.use(express.json());
 
 
 app.use('/api',serviceRoutes );
-
+const PORT =  5000;
 const MONGO="mongodb+srv://tambiarchit:archit123@cluster0.3fffx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 mongoose
      .connect(MONGO)
      .then(() => {
-  console.log('MongoDB connected');
-}).catch((error) => {
-  console.error('MongoDB connection error:', error);
-});
-const __dirname = path.resolve()
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
+        console.log("Database is connected");
+      })
+      const __dirname = path.resolve()
+   app.listen(PORT,()=>{
+       console.log(`Server is running on port ${PORT}`);
+   })
+   
+   
+   app.use(express.static(path.join(__dirname, '/frontend/dist')));
+   
+   app.get('*', (req, res) => {
+     res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+   })
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
-})
 
-
-const PORT =  5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
